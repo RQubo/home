@@ -14,9 +14,11 @@
     <link rel="icon" href="assets/logo/favicon.png" type="image/png">
     <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/projects-gallery.css">
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/bootstrap.bundle.min.js" defer>
     </script>
+    <script src="js/projects-gallery.js" defer></script>
     <script src="js/main.js" defer>
     </script>
   </head>
@@ -345,7 +347,7 @@
               <h2 id="projects-title">Distintos contextos.<br>El mismo compromiso.</h2>
             </div>
             <div class="col-lg-5">
-              <p class="section-intro">Experiencia vinculada a organizaciones y proyectos públicos que muestran cómo abordamos el desarrollo web, mobile y de sistemas.</p>
+              <p class="section-intro">Experiencia vinculada a organizaciones y soluciones que muestran cómo abordamos el desarrollo web, mobile y de sistemas.</p>
             </div>
           </div>
           <div class="experience-label" data-reveal>
@@ -411,77 +413,15 @@
               </article>
             </div>
           </div>
-          <div class="experience-label public-label" data-reveal>
-            <span>02 / CÓDIGO PÚBLICO</span>
-            <p>Proyectos verificables en los GitHub del equipo.</p>
+          <div class="experience-label projects-gallery-label" data-reveal>
+            <span id="projects-gallery-title">02 / PROYECTOS EN ACCIÓN</span>
+            <p>Una mirada a las soluciones que desarrollamos.</p>
           </div>
-          <div class="row g-4">
-            <div class="col-lg-7" data-reveal>
-              <article class="project-card repository-card repository-featured">
-                <div class="repository-visual" aria-hidden="true">
-                  <div class="system-node">
-                    <svg class="icon" aria-hidden="true"><use href="#i-grid"></use></svg>
-                    <span>Dashboard</span>
-                  </div>
-                  <span class="node-connector"></span>
-                  <div class="system-node node-server">
-                    <svg class="icon" aria-hidden="true"><use href="#i-database"></use></svg>
-                    <span>API</span>
-                  </div>
-                  <span class="node-connector"></span>
-                  <div class="system-node">
-                    <svg class="icon" aria-hidden="true"><use href="#i-mobile"></use></svg>
-                    <span>Apps</span>
-                  </div>
-                </div>
-                <div class="project-body">
-                  <div class="project-kind">
-                    Sistema conectado · Web + Mobile + API
-                  </div>
-                  <h3>Ecosistema de gestión para restaurantes</h3>
-                  <p>Dashboard de administración, aplicación de empleados y validación de acceso con QR. Las apps se conectan a una API y contemplan funciones sin conexión.</p>
-                  <div class="tag-list">
-                    <span>Spring Boot</span>
-                    <span>React</span>
-                    <span>React Native</span>
-                    <span>Kotlin</span>
-                    <span>MySQL</span>
-                    <span>SQLite</span>
-                  </div>
-                  <div class="project-footer repository-links">
-                    <a class="inline-link" href="https://github.com/TomasRandoM/restaurantServer" target="_blank" rel="noopener noreferrer"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"></use></svg>Backend</a>
-                    <a class="inline-link" href="https://github.com/JoacoR7/staffManagement" target="_blank" rel="noopener noreferrer">Dashboard</a>
-                    <a class="inline-link" href="https://github.com/TomasRandoM/restaurantEmployeeApp" target="_blank" rel="noopener noreferrer">App de empleados</a>
-                    <a class="inline-link" href="https://github.com/TomasRandoM/qrRestaurantScanner" target="_blank" rel="noopener noreferrer">App QR</a>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="col-lg-5" data-reveal>
-              <article class="project-card repository-card">
-                <div class="repository-heading">
-                  <span class="icon-box"><svg class="icon" aria-hidden="true"><use href="#i-grid"></use></svg></span>
-                  <span class="academic-label">Proyecto académico colaborativo</span>
-                </div>
-                <div class="project-body">
-                  <div class="project-kind">
-                    Sistema interno · Gestión y control
-                  </div>
-                  <h3>Gestión de seguridad para barrios</h3>
-                  <p>Sistema web para registrar inmuebles y residentes, programar visitas y facilitar las operaciones del personal de seguridad.</p>
-                  <div class="tag-list">
-                    <span>Java</span>
-                    <span>Spring Boot</span>
-                    <span>Thymeleaf</span>
-                    <span>Bootstrap</span>
-                    <span>MySQL</span>
-                  </div>
-                  <div class="project-footer">
-                    <a class="inline-link" href="https://github.com/VictorRamirez26/sistema-gestion-barrio" target="_blank" rel="noopener noreferrer"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"></use></svg>Explorar repositorio<span class="visually-hidden">, abre en otra pestaña</span></a>
-                  </div>
-                </div>
-              </article>
-            </div>
+          <div id="projects-gallery" aria-labelledby="projects-gallery-title" data-reveal>
+            <a class="project-gallery-fallback" data-project="Gestión de convenios" href="assets/images/projects/proyectoConvenios.png" target="_blank" rel="noopener noreferrer">
+              <img src="assets/images/projects/proyectoConvenios.png" width="1780" height="883" alt="Tablero de Relaciones Institucionales con indicadores de convenios, carreras y normativas, y gráficos por carrera e institución." loading="lazy" decoding="async">
+              <span>Gestión de convenios</span>
+            </a>
           </div>
         </div>
       </section>
