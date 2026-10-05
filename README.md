@@ -95,7 +95,7 @@ Los servicios, proyectos y perfiles se editan directamente en `index.html`. Los 
 
 - [Bootstrap 5.3.8](https://getbootstrap.com/docs/5.3/getting-started/download/): distribución oficial lista para usar, licencia MIT incluida en `css/BOOTSTRAP-LICENSE.txt`.
 - [Manrope](https://github.com/sharanda/manrope): fuente variable servida localmente, SIL Open Font License 1.1 incluida en `assets/fonts/OFL.txt`.
-- Avatares: imágenes públicas de los GitHub indicados por el equipo, descargadas y optimizadas como WebP. Podés reemplazarlas por retratos propios conservando los nombres de archivo.
+- Avatares: `js/main.js` consulta los perfiles públicos de GitHub y muestra sus fotos actuales en la portada y las tarjetas. Las copias WebP locales se usan sin JavaScript o si GitHub falla; podés reemplazarlas conservando los nombres de archivo.
 
 No se agregaron analytics, cookies, formularios externos ni almacenamiento de datos personales.
 
@@ -109,6 +109,6 @@ No se agregaron analytics, cookies, formularios externos ni almacenamiento de da
 - Animaciones de entrada y preferencia de movimiento reducido.
 - Contenido visible sin JavaScript, navegación móvil disponible y contacto directo por email.
 - Ampliación de texto al 200% en escritorio y móvil, sin desborde de página.
-- Sin errores de JavaScript, IDs duplicados, anclas rotas ni solicitudes a CDNs al cargar la página.
+- Sin errores de JavaScript, IDs duplicados ni anclas rotas. Las fotos del equipo ahora pueden consultar GitHub durante la carga.
 
 Las herramientas y capturas de revisión se guardaron en `.qa/`, que está excluida por `.gitignore` y no forma parte de la web publicada.

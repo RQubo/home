@@ -18,6 +18,26 @@ const RQUBO_CONTACT = Object.freeze({
 
   if (year) year.textContent = new Date().getFullYear();
 
+  const profileImages = document.querySelectorAll("img[data-github-user]");
+  const githubUsers = new Set([...profileImages].map((image) => image.dataset.githubUser));
+  githubUsers.forEach(async (username) => {
+    try {
+      const response = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}`);
+      if (!response.ok) return;
+      const { avatar_url: avatarUrl } = await response.json();
+      const avatar = new URL(avatarUrl);
+      if (avatar.protocol !== "https:") return;
+      avatar.searchParams.set("s", "192");
+
+      profileImages.forEach((image) => {
+        if (image.dataset.githubUser !== username) return;
+        const fallback = image.getAttribute("src");
+        image.addEventListener("error", () => { image.src = fallback; }, { once: true });
+        image.src = avatar.href;
+      });
+    } catch { /* Sin conexión o respuesta inválida: se conserva la foto local. */ }
+  });
+
   const refreshHeader = () => header?.classList.toggle("is-scrolled", window.scrollY > 15);
   refreshHeader();
   window.addEventListener("scroll", refreshHeader, { passive: true });
