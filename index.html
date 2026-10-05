@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RQubo | Desarrollo web, mobile y software a medida</title>
+    <meta name="description" content="Somos RQubo: tres desarrolladores que crean aplicaciones web, mobile y software a medida. Conocé al equipo, nuestra experiencia y contanos tu proyecto.">
+    <meta name="theme-color" content="#071342">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:site_name" content="RQubo">
+    <meta property="og:title" content="RQubo — Software pensado para tu negocio">
+    <meta property="og:description" content="Un equipo de tres desarrolladores. Aplicaciones web, mobile y soluciones a medida, desde la primera conversación hasta el lanzamiento.">
+    <link rel="icon" href="assets/logo/favicon.png" type="image/png">
+    <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/bootstrap.bundle.min.js" defer>
+    </script>
+    <script src="js/main.js" defer>
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <!-- Símbolos locales: los iconos funcionan también con file://. -->
+    <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="i-code" viewBox="0 0 24 24">
+        <path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 20"/>
+      </symbol>
+      <symbol id="i-mobile" viewBox="0 0 24 24">
+        <rect x="6" y="2" width="12" height="20" rx="3"/>
+        <path d="M10 5h4m-3 14h2"/>
+      </symbol>
+      <symbol id="i-cube" viewBox="0 0 24 24">
+        <path d="m12 2 9 5v10l-9 5-9-5V7l9-5Zm0 10L3 7m9 5 9-5m-9 5v10m-5-17 9 5"/>
+      </symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+        <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+        <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+      </symbol>
+      <symbol id="i-link" viewBox="0 0 24 24">
+        <path d="m10 7 3-3a5 5 0 0 1 7 7l-3 3M7 10l-3 3a5 5 0 0 0 7 7l3-3m-6-1 8-8"/>
+      </symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24">
+        <path d="M20 7a9 9 0 0 0-15-2L2 8m0-5v5h5m-3 9a9 9 0 0 0 15 2l3-3m0 5v-5h-5"/>
+      </symbol>
+      <symbol id="i-message" viewBox="0 0 24 24">
+        <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H6l-4 2 2-6V11.5A8.5 8.5 0 0 1 12.5 3H16a5 5 0 0 1 5 5v3.5Z"/>
+        <path d="M8 9h9m-9 5h6"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12 4 4L19 6"/>
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="14" rx="2"/>
+        <path d="m3 6 9 7 9-7"/>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24">
+        <path d="M14 3h7v7m0-7L10 14m0-11H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/>
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <rect x="8" y="8" width="13" height="13" rx="2"/>
+        <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 24 24">
+        <path d="M9 19c-4 1-4-2-6-2m12 5v-4a3.5 3.5 0 0 0-1-3c3-.3 6-1.5 6-5a5 5 0 0 0-1.5-3.5 4.5 4.5 0 0 0 0-3.5S17 3 15 4a13 13 0 0 0-6 0C7 3 5.5 3 5.5 3a4.5 4.5 0 0 0 0 3.5A5 5 0 0 0 4 10c0 3.5 3 4.7 6 5a3.5 3.5 0 0 0-1 3v4"/>
+      </symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24">
+        <path d="m12 3 10 5-10 5L2 8l10-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/>
+      </symbol>
+      <symbol id="i-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="5" rx="8" ry="3"/>
+        <path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>
+      </symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24">
+        <path d="M4 3v7m0 4v7M12 3v12m0 4v2M20 3v2m0 4v12M1 10h6m2 9h6m2-14h6"/>
+      </symbol>
+      <symbol id="i-people" viewBox="0 0 24 24">
+        <circle cx="9" cy="7" r="3"/>
+        <path d="M2 21v-3a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v3m1-17a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 5v3"/>
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24">
+        <path d="M21 11.5A9 9 0 0 1 8 20l-6 2 2-6A9 9 0 1 1 21 11.5Z"/>
+        <path d="M8 7c0 5 4 9 9 9l1-3-3-1-1 2a8 8 0 0 1-4-4l2-1-1-3-3 1Z"/>
+      </symbol>
+      <symbol id="i-linkedin" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <path d="M7 10v7m0-10v.1m5 9.9v-7m0 3a3 3 0 0 1 6 0v4"/>
+      </symbol>
+    </svg>
+    <header class="site-header" id="site-header">
+      <nav class="navbar navbar-expand-lg container" aria-label="Navegación principal">
+        <a class="navbar-brand brand" href="#inicio" aria-label="RQubo, inicio"> <img class="brand-symbol" src="assets/logo/mark.webp" width="36" height="41" alt=""> <img class="brand-wordmark" src="assets/logo/wordmark.webp" width="104" height="27" alt="RQubo"> </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir navegación"> <span class="menu-line"></span><span class="menu-line"></span> </button>
+        <div class="collapse navbar-collapse" id="main-nav">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item">
+              <a class="nav-link" href="#servicios">Servicios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#a-medida">A medida</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#proyectos">Proyectos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#equipo">Equipo</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-brand nav-contact" href="#contacto">Hablemos de tu proyecto</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main id="contenido">
+      <section class="hero section-anchor" id="inicio" aria-labelledby="hero-title">
+        <div class="container">
+          <div class="row align-items-center gy-5 hero-row">
+            <div class="col-lg-7 hero-copy" data-reveal>
+              <p class="eyebrow"><span class="eyebrow-line"></span> Estudio de desarrollo de software</p>
+              <h1 id="hero-title">Software pensado <br> para <span class="text-brand">tu negocio.</span></h1>
+              <p class="hero-description">Cada negocio tiene su forma de funcionar. Desarrollamos aplicaciones web, mobile y sistemas a medida que encajan con la tuya.</p>
+              <div class="hero-actions">
+                <a class="btn btn-brand btn-lg" href="#contacto">Contanos qué necesitás</a>
+                <a class="btn btn-outline-brand btn-lg" href="#proyectos">Conocé nuestro trabajo</a>
+              </div>
+              <div class="hero-team">
+                <div class="avatar-stack" aria-hidden="true">
+                  <img src="assets/images/tomas.webp" width="40" height="40" alt="">
+                  <img src="assets/images/victor.webp" width="40" height="40" alt="">
+                  <img src="assets/images/joaquin.webp" width="40" height="40" alt="">
+                </div>
+                <p><strong>Tres desarrolladores. Un equipo.</strong><br>Comunicación directa, de principio a fin.</p>
+              </div>
+            </div>
+            <div class="col-lg-5" data-reveal>
+              <div class="brand-blueprint" aria-label="RQubo conecta desarrollo web, mobile y software a medida">
+                <div class="blueprint-heading">
+                  <span>HECHO PARA ENCAJAR</span>
+                  <span>RQ / 03</span>
+                </div>
+                <div class="blueprint-grid" aria-hidden="true">
+                </div>
+                <div class="blueprint-orbit orbit-one" aria-hidden="true">
+                </div>
+                <div class="blueprint-orbit orbit-two" aria-hidden="true">
+                </div>
+                <img class="hero-cube" src="assets/logo/mark.webp" width="230" height="261" alt="Isotipo de RQubo: un cubo azul con la letra R integrada" fetchpriority="high">
+                <div class="blueprint-label label-web">
+                  <svg class="icon" aria-hidden="true"><use href="#i-code"></use></svg>
+                  Web
+                </div>
+                <div class="blueprint-label label-mobile">
+                  <svg class="icon" aria-hidden="true"><use href="#i-mobile"></use></svg>
+                  Mobile
+                </div>
+                <div class="blueprint-label label-custom">
+                  <svg class="icon" aria-hidden="true"><use href="#i-cube"></use></svg>
+                  A medida
+                </div>
+                <div class="blueprint-footer">
+                  <p>Distintas necesidades.<br><strong>Una solución propia.</strong></p>
+                  <span class="blueprint-cross" aria-hidden="true">+</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-bottom" data-reveal>
+            <p>De la primera idea<br><strong>al producto que necesitás.</strong></p>
+            <ul aria-label="Nuestro enfoque">
+              <li>
+                Entender tu negocio
+              </li>
+              <li>
+                Construir con vos
+              </li>
+              <li>
+                Acompañar el lanzamiento
+              </li>
+            </ul>
+            <a class="scroll-cue" href="#servicios" aria-label="Descubrir los servicios de RQubo"><span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+      </section>
+      <section class="section-pad services section-anchor" id="servicios" aria-labelledby="services-title">
+        <div class="container">
+          <div class="section-heading row align-items-end gy-3" data-reveal>
+            <div class="col-lg-7">
+              <p class="eyebrow"><span class="eyebrow-line"></span> Qué hacemos</p>
+              <h2 id="services-title">Tu próximo paso.<br>La solución indicada.</h2>
+            </div>
+            <div class="col-lg-5">
+              <p class="section-intro">Un nuevo producto, un proceso que necesita orden o un sistema que quedó atrás. Empezamos por lo que tu empresa necesita resolver.</p>
+            </div>
+          </div>
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="service-card service-primary">
+                <div class="card-top">
+                  <span class="icon-box"><svg class="icon" aria-hidden="true"><use href="#i-code"></use></svg></span>
+                  <span class="card-index">01</span>
+                </div>
+                <h3>Desarrollo web</h3>
+                <p>Aplicaciones y plataformas que se usan con facilidad. Interfaces claras y funcionales, adaptadas a cada dispositivo.</p>
+                <div class="tag-list">
+                  <span>Aplicaciones web</span>
+                  <span>Plataformas</span>
+                  <span>Portales</span>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="service-card">
+                <div class="card-top">
+                  <span class="icon-box"><svg class="icon" aria-hidden="true"><use href="#i-mobile"></use></svg></span>
+                  <span class="card-index">02</span>
+                </div>
+                <h3>Desarrollo mobile</h3>
+                <p>Aplicaciones que llevan tu servicio al bolsillo del usuario. Desarrollo nativo o multiplataforma según el proyecto.</p>
+                <div class="tag-list">
+                  <span>Android</span>
+                  <span>Multiplataforma</span>
+                  <span>Apps conectadas</span>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="service-card">
+                <div class="card-top">
+                  <span class="icon-box"><svg class="icon" aria-hidden="true"><use href="#i-cube"></use></svg></span>
+                  <span class="card-index">03</span>
+                </div>
+                <h3>Software a medida</h3>
+                <p>Tu operación define el sistema. Analizamos el problema y construimos una solución con las funcionalidades que realmente necesitás.</p>
+                <div class="tag-list">
+                  <span>Gestión</span>
+                  <span>Procesos propios</span>
+                  <span>MVPs</span>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="service-card service-secondary">
+                <svg class="icon" aria-hidden="true"><use href="#i-grid"></use></svg>
+                <div>
+                  <h3>Sistemas internos</h3>
+                  <p>Herramientas para organizar la información y simplificar el trabajo diario de tu equipo.</p>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="service-card service-secondary">
+                <svg class="icon" aria-hidden="true"><use href="#i-link"></use></svg>
+                <div>
+                  <h3>Integraciones y APIs</h3>
+                  <p>Conectamos aplicaciones y servicios para que tus sistemas puedan trabajar juntos.</p>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="service-card service-secondary">
+                <svg class="icon" aria-hidden="true"><use href="#i-refresh"></use></svg>
+                <div>
+                  <h3>Modernización</h3>
+                  <p>Evaluamos sistemas existentes y proponemos mejoras de funcionalidad, experiencia y mantenimiento.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-pad custom-section section-anchor" id="a-medida" aria-labelledby="custom-title">
+        <div class="container">
+          <div class="row gy-4 custom-heading" data-reveal>
+            <div class="col-lg-7">
+              <p class="eyebrow eyebrow-light"><span class="eyebrow-line"></span> Software a tu medida</p>
+              <h2 id="custom-title">Primero tu necesidad.<br><span>Después, el código.</span></h2>
+            </div>
+            <div class="col-lg-5">
+              <p class="custom-intro">No hace falta que llegues con una especificación técnica. Nos contás cómo trabajás, qué te frena o qué querés crear. Juntos definimos una solución y un alcance que tengan sentido.</p>
+              <a class="inline-link link-light" href="#contacto">Conversemos sobre tu idea</a>
+            </div>
+          </div>
+          <ol class="process-list" aria-label="Proceso de desarrollo">
+            <li data-reveal>
+              <span class="step-number">01</span>
+              <h3>Idea / necesidad</h3>
+              <p>Escuchamos el desafío y el contexto de tu negocio.</p>
+            </li>
+            <li data-reveal>
+              <span class="step-number">02</span>
+              <h3>Análisis</h3>
+              <p>Definimos prioridades, funcionalidades y alcance.</p>
+            </li>
+            <li data-reveal>
+              <span class="step-number">03</span>
+              <h3>Diseño</h3>
+              <p>Proponemos la experiencia y la estructura del producto.</p>
+            </li>
+            <li data-reveal>
+              <span class="step-number">04</span>
+              <h3>Desarrollo</h3>
+              <p>Construimos por etapas, con avances que podés revisar.</p>
+            </li>
+            <li data-reveal>
+              <span class="step-number">05</span>
+              <h3>Lanzamiento</h3>
+              <p>Probamos la solución y acompañamos su puesta en marcha.</p>
+            </li>
+          </ol>
+          <div class="process-note" data-reveal>
+            <svg class="icon" aria-hidden="true"><use href="#i-message"></use></svg>
+            <p>En cada etapa, hablás directamente con quienes desarrollan tu proyecto.</p>
+          </div>
+        </div>
+      </section>
+      <section class="section-pad projects section-anchor" id="proyectos" aria-labelledby="projects-title">
+        <div class="container">
+          <div class="section-heading row align-items-end gy-3" data-reveal>
+            <div class="col-lg-7">
+              <p class="eyebrow"><span class="eyebrow-line"></span> Experiencia del equipo</p>
+              <h2 id="projects-title">Distintos contextos.<br>El mismo compromiso.</h2>
+            </div>
+            <div class="col-lg-5">
+              <p class="section-intro">Experiencia vinculada a organizaciones y proyectos públicos que muestran cómo abordamos el desarrollo web, mobile y de sistemas.</p>
+            </div>
+          </div>
+          <div class="experience-label" data-reveal>
+            <span>01 / ORGANIZACIONES</span>
+            <p>Proyectos relacionados con los siguientes ámbitos.</p>
+          </div>
+          <div class="row g-4 institutional-projects">
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="project-card institution-card">
+                <div class="project-cover cover-citsas">
+                  <span class="cover-meta">LOGÍSTICA INTERNACIONAL</span>
+                  <span class="project-lettermark">CITSAS<span class="lettermark-dot">.</span></span>
+                  <span class="cover-caption">Colombia International Trading SAS</span>
+                </div>
+                <div class="project-body">
+                  <div class="project-kind">
+                    Experiencia vinculada · Logística
+                  </div>
+                  <h3>CITSAS</h3>
+                  <p>Empresa de logística y envíos internacionales. Experiencia del equipo en proyectos relacionados con este entorno de negocio.</p>
+                  <div class="project-footer">
+                    <a class="inline-link" href="https://citsas.co/" target="_blank" rel="noopener noreferrer">Sitio de la organización<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"></use></svg><span class="visually-hidden">, abre en otra pestaña</span></a>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="project-card institution-card">
+                <div class="project-cover cover-apuaye">
+                  <span class="cover-meta">ÁMBITO INSTITUCIONAL</span>
+                  <span class="project-lettermark">APUAYE</span>
+                  <span class="cover-caption">Profesionales del agua y la energía</span>
+                </div>
+                <div class="project-body">
+                  <div class="project-kind">
+                    Experiencia vinculada · Asociación
+                  </div>
+                  <h3>APUAYE</h3>
+                  <p>Asociación de Profesionales Universitarios del Agua y la Energía Eléctrica. Experiencia en proyectos relacionados con la institución.</p>
+                  <div class="project-footer">
+                    <a class="inline-link" href="https://www.apuaye.org.ar/web/" target="_blank" rel="noopener noreferrer">Sitio de la organización<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"></use></svg><span class="visually-hidden">, abre en otra pestaña</span></a>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="project-card institution-card">
+                <div class="project-cover cover-ospuaye">
+                  <span class="cover-meta">SALUD Y COBERTURA</span>
+                  <span class="project-lettermark">OSPUAYE</span>
+                  <span class="cover-caption">Obra social de profesionales</span>
+                </div>
+                <div class="project-body">
+                  <div class="project-kind">
+                    Experiencia vinculada · Salud
+                  </div>
+                  <h3>OSPUAYE</h3>
+                  <p>Obra social de profesionales universitarios del agua y la energía eléctrica. Experiencia en proyectos relacionados con este ámbito.</p>
+                  <div class="project-footer">
+                    <a class="inline-link" href="https://www.ospuaye.org.ar/" target="_blank" rel="noopener noreferrer">Sitio de la organización<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"></use></svg><span class="visually-hidden">, abre en otra pestaña</span></a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="experience-label public-label" data-reveal>
+            <span>02 / CÓDIGO PÚBLICO</span>
+            <p>Proyectos verificables en los GitHub del equipo.</p>
+          </div>
+          <div class="row g-4">
+            <div class="col-lg-7" data-reveal>
+              <article class="project-card repository-card repository-featured">
+                <div class="repository-visual" aria-hidden="true">
+                  <div class="system-node">
+                    <svg class="icon" aria-hidden="true"><use href="#i-grid"></use></svg>
+                    <span>Dashboard</span>
+                  </div>
+                  <span class="node-connector"></span>
+                  <div class="system-node node-server">
+                    <svg class="icon" aria-hidden="true"><use href="#i-database"></use></svg>
+                    <span>API</span>
+                  </div>
+                  <span class="node-connector"></span>
+                  <div class="system-node">
+                    <svg class="icon" aria-hidden="true"><use href="#i-mobile"></use></svg>
+                    <span>Apps</span>
+                  </div>
+                </div>
+                <div class="project-body">
+                  <div class="project-kind">
+                    Sistema conectado · Web + Mobile + API
+                  </div>
+                  <h3>Ecosistema de gestión para restaurantes</h3>
+                  <p>Dashboard de administración, aplicación de empleados y validación de acceso con QR. Las apps se conectan a una API y contemplan funciones sin conexión.</p>
+                  <div class="tag-list">
+                    <span>Spring Boot</span>
+                    <span>React</span>
+                    <span>React Native</span>
+                    <span>Kotlin</span>
+                    <span>MySQL</span>
+                    <span>SQLite</span>
+                  </div>
+                  <div class="project-footer repository-links">
+                    <a class="inline-link" href="https://github.com/TomasRandoM/restaurantServer" target="_blank" rel="noopener noreferrer"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"></use></svg>Backend</a>
+                    <a class="inline-link" href="https://github.com/JoacoR7/staffManagement" target="_blank" rel="noopener noreferrer">Dashboard</a>
+                    <a class="inline-link" href="https://github.com/TomasRandoM/restaurantEmployeeApp" target="_blank" rel="noopener noreferrer">App de empleados</a>
+                    <a class="inline-link" href="https://github.com/TomasRandoM/qrRestaurantScanner" target="_blank" rel="noopener noreferrer">App QR</a>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div class="col-lg-5" data-reveal>
+              <article class="project-card repository-card">
+                <div class="repository-heading">
+                  <span class="icon-box"><svg class="icon" aria-hidden="true"><use href="#i-grid"></use></svg></span>
+                  <span class="academic-label">Proyecto académico colaborativo</span>
+                </div>
+                <div class="project-body">
+                  <div class="project-kind">
+                    Sistema interno · Gestión y control
+                  </div>
+                  <h3>Gestión de seguridad para barrios</h3>
+                  <p>Sistema web para registrar inmuebles y residentes, programar visitas y facilitar las operaciones del personal de seguridad.</p>
+                  <div class="tag-list">
+                    <span>Java</span>
+                    <span>Spring Boot</span>
+                    <span>Thymeleaf</span>
+                    <span>Bootstrap</span>
+                    <span>MySQL</span>
+                  </div>
+                  <div class="project-footer">
+                    <a class="inline-link" href="https://github.com/VictorRamirez26/sistema-gestion-barrio" target="_blank" rel="noopener noreferrer"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"></use></svg>Explorar repositorio<span class="visually-hidden">, abre en otra pestaña</span></a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-pad technology section-anchor" id="tecnologias" aria-labelledby="tech-title">
+        <div class="container">
+          <div class="row gy-5 align-items-start">
+            <div class="col-lg-5" data-reveal>
+              <p class="eyebrow"><span class="eyebrow-line"></span> Con qué construimos</p>
+              <h2 id="tech-title">La tecnología <br> al servicio <br> de la solución.</h2>
+              <p class="section-intro">Elegimos las herramientas según el proyecto. Estas tecnologías están presentes en los repositorios públicos del equipo.</p>
+              <a class="inline-link" href="#equipo">Conocé a quienes las usan</a>
+            </div>
+            <div class="col-lg-7">
+              <div class="tech-grid">
+                <article class="tech-group" data-reveal>
+                  <span class="tech-category"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-code"></use></svg>Frontend</span>
+                  <ul>
+                    <li>
+                      React
+                    </li>
+                    <li>
+                      JavaScript
+                    </li>
+                    <li>
+                      TypeScript
+                    </li>
+                    <li>
+                      HTML / CSS
+                    </li>
+                    <li>
+                      Bootstrap
+                    </li>
+                    <li>
+                      Thymeleaf
+                    </li>
+                  </ul>
+                </article>
+                <article class="tech-group" data-reveal>
+                  <span class="tech-category"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-layers"></use></svg>Backend</span>
+                  <ul>
+                    <li>
+                      Java
+                    </li>
+                    <li>
+                      Spring Boot
+                    </li>
+                    <li>
+                      Python
+                    </li>
+                    <li>
+                      APIs REST
+                    </li>
+                    <li>
+                      Spring Security
+                    </li>
+                    <li>
+                      JPA / Hibernate
+                    </li>
+                  </ul>
+                </article>
+                <article class="tech-group" data-reveal>
+                  <span class="tech-category"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-mobile"></use></svg>Mobile</span>
+                  <ul>
+                    <li>
+                      React Native
+                    </li>
+                    <li>
+                      Expo
+                    </li>
+                    <li>
+                      Kotlin
+                    </li>
+                    <li>
+                      Jetpack Compose
+                    </li>
+                    <li>
+                      Flutter / Dart
+                    </li>
+                  </ul>
+                </article>
+                <article class="tech-group" data-reveal>
+                  <span class="tech-category"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-database"></use></svg>Datos y herramientas</span>
+                  <ul>
+                    <li>
+                      MySQL
+                    </li>
+                    <li>
+                      SQLite
+                    </li>
+                    <li>
+                      Docker
+                    </li>
+                    <li>
+                      Git / GitHub
+                    </li>
+                    <li>
+                      JWT
+                    </li>
+                  </ul>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-pad team section-anchor" id="equipo" aria-labelledby="team-title">
+        <div class="container">
+          <div class="section-heading row align-items-end gy-3" data-reveal>
+            <div class="col-lg-7">
+              <p class="eyebrow"><span class="eyebrow-line"></span> Nuestro equipo</p>
+              <h2 id="team-title">Tres personas.<br>Muchas formas de aportar.</h2>
+            </div>
+            <div class="col-lg-5">
+              <p class="section-intro">Nos complementamos en desarrollo web, backend y mobile. Conocé a las personas con las que vas a trabajar.</p>
+            </div>
+          </div>
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="team-card">
+                <div class="team-card-top">
+                  <img src="assets/images/tomas.webp" alt="Avatar público de Tomás Rando en GitHub" width="96" height="96" loading="lazy" decoding="async">
+                  <span class="team-monogram" aria-hidden="true">TR</span>
+                </div>
+                <div class="team-area">
+                  Backend
+                  &amp;
+                  mobile
+                </div>
+                <h3>Tomás Rando</h3>
+                <p>Desarrolla APIs con Java y Spring Boot y aplicaciones con React Native y Kotlin. Sus proyectos públicos incluyen un ecosistema de gestión para restaurantes.</p>
+                <div class="tag-list">
+                  <span>Java</span>
+                  <span>Spring Boot</span>
+                  <span>React Native</span>
+                  <span>Kotlin</span>
+                </div>
+                <a class="team-link" href="https://github.com/TomasRandoM" target="_blank" rel="noopener noreferrer"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"></use></svg><span>@TomasRandoM</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"></use></svg><span class="visually-hidden">, GitHub, abre en otra pestaña</span></a>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="team-card">
+                <div class="team-card-top">
+                  <img src="assets/images/victor.webp" alt="Avatar público de Victor Ramírez en GitHub" width="96" height="96" loading="lazy" decoding="async">
+                  <span class="team-monogram" aria-hidden="true">VR</span>
+                </div>
+                <div class="team-area">
+                  Sistemas web
+                  &amp;
+                  mobile
+                </div>
+                <h3>Victor Ramírez</h3>
+                <p>Sus repositorios reúnen sistemas web con Java, Spring Boot y Thymeleaf, junto a proyectos mobile con Flutter y Dart. Participa en el sistema de gestión de seguridad para barrios.</p>
+                <div class="tag-list">
+                  <span>Java</span>
+                  <span>Thymeleaf</span>
+                  <span>MySQL</span>
+                  <span>Flutter</span>
+                </div>
+                <a class="team-link" href="https://github.com/VictorRamirez26" target="_blank" rel="noopener noreferrer"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"></use></svg><span>@VictorRamirez26</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"></use></svg><span class="visually-hidden">, GitHub, abre en otra pestaña</span></a>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4" data-reveal>
+              <article class="team-card">
+                <div class="team-card-top">
+                  <img src="assets/images/joaquin.webp" alt="Avatar público de Joaquín Ruiz en GitHub" width="96" height="96" loading="lazy" decoding="async">
+                  <span class="team-monogram" aria-hidden="true">JR</span>
+                </div>
+                <div class="team-area">
+                  Frontend
+                  &amp;
+                  sistemas
+                </div>
+                <h3>Joaquín Ruiz</h3>
+                <p>Trabaja en interfaces con React y JavaScript y proyectos de sistemas con Java. Su código público incluye el dashboard de gestión para restaurantes y aplicaciones web.</p>
+                <div class="tag-list">
+                  <span>React</span>
+                  <span>JavaScript</span>
+                  <span>Java</span>
+                  <span>Python</span>
+                </div>
+                <a class="team-link" href="https://github.com/JoacoR7" target="_blank" rel="noopener noreferrer"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"></use></svg><span>@JoacoR7</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"></use></svg><span class="visually-hidden">, GitHub, abre en otra pestaña</span></a>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-pad why-us" aria-labelledby="why-title">
+        <div class="container">
+          <div class="row gy-5">
+            <div class="col-lg-5" data-reveal>
+              <p class="eyebrow"><span class="eyebrow-line"></span> Por qué RQubo</p>
+              <h2 id="why-title">Un equipo pequeño.<br>Una relación cercana.</h2>
+              <p class="section-intro">La ventaja de trabajar con un estudio de desarrollo es simple: tu proyecto tiene nombre, contexto y personas que lo conocen.</p>
+              <div class="why-signature">
+                <img src="assets/logo/mark.webp" width="45" height="51" alt="" loading="lazy">
+                <span>Tu equipo de desarrollo.</span>
+              </div>
+            </div>
+            <div class="col-lg-7">
+              <div class="benefit-list">
+                <article data-reveal>
+                  <span class="benefit-icon"><svg class="icon" aria-hidden="true"><use href="#i-message"></use></svg></span>
+                  <div>
+                    <h3>Comunicación directa</h3>
+                    <p>Conversás con los desarrolladores. Las dudas, ideas y decisiones llegan a quienes construyen la solución.</p>
+                  </div>
+                </article>
+                <article data-reveal>
+                  <span class="benefit-icon"><svg class="icon" aria-hidden="true"><use href="#i-cube"></use></svg></span>
+                  <div>
+                    <h3>Una solución propia</h3>
+                    <p>Definimos el producto a partir de tus procesos, tus usuarios y las necesidades reales de tu negocio.</p>
+                  </div>
+                </article>
+                <article data-reveal>
+                  <span class="benefit-icon"><svg class="icon" aria-hidden="true"><use href="#i-sliders"></use></svg></span>
+                  <div>
+                    <h3>Flexibilidad con criterio</h3>
+                    <p>Priorizamos juntos y revisamos el alcance cuando aparece nueva información o cambia el contexto.</p>
+                  </div>
+                </article>
+                <article data-reveal>
+                  <span class="benefit-icon"><svg class="icon" aria-hidden="true"><use href="#i-people"></use></svg></span>
+                  <div>
+                    <h3>Acompañamiento en cada etapa</h3>
+                    <p>Compartimos avances, escuchamos tu feedback y te acompañamos desde la definición hasta el lanzamiento.</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-pad contact section-anchor" id="contacto" aria-labelledby="contact-title">
+        <div class="container">
+          <div class="row gy-5 contact-row">
+            <div class="col-lg-6" data-reveal>
+              <p class="eyebrow eyebrow-light"><span class="eyebrow-line"></span> Tu próximo proyecto empieza acá</p>
+              <h2 id="contact-title">Contanos <br> qué necesitás <br> <span>desarrollar.</span></h2>
+              <p class="contact-description">¿Tenés una idea, un proceso para mejorar o un sistema que necesita evolucionar? Nos gustaría conocerlo.</p>
+              <a class="contact-email" href="mailto:rqubosoftware@gmail.com" data-contact-email>rqubosoftware@gmail.com</a>
+              <div class="contact-channels">
+                <a class="btn btn-white" href="mailto:rqubosoftware@gmail.com" data-contact-mailto><svg class="icon icon-sm" aria-hidden="true"><use href="#i-mail"></use></svg>Escribinos por email</a>
+                <button class="copy-button" type="button" data-copy-email aria-label="Copiar el email de RQubo"><svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg></button>
+              </div>
+              <p class="copy-feedback" id="copy-feedback" role="status" aria-live="polite"></p>
+              <div class="optional-channels">
+                <a class="optional-channel" data-contact-whatsapp hidden target="_blank" rel="noopener noreferrer"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-whatsapp"></use></svg>WhatsApp</a>
+                <span class="channel-pending" data-whatsapp-pending><svg class="icon icon-sm" aria-hidden="true"><use href="#i-whatsapp"></use></svg>WhatsApp <small>Por configurar</small></span>
+                <a class="optional-channel" data-contact-linkedin hidden target="_blank" rel="noopener noreferrer"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-linkedin"></use></svg>LinkedIn</a>
+                <span class="channel-pending" data-linkedin-pending><svg class="icon icon-sm" aria-hidden="true"><use href="#i-linkedin"></use></svg>LinkedIn <small>Por configurar</small></span>
+              </div>
+            </div>
+            <div class="col-lg-6" data-reveal>
+              <form class="contact-form" id="contact-form">
+                <h3>Hablemos de tu idea</h3>
+                <p class="form-intro">Con un poco de contexto podemos empezar mejor.</p>
+                <div class="row g-3">
+                  <div class="col-sm-6">
+                    <label class="form-label" for="contact-name">Tu nombre <span aria-hidden="true">*</span></label>
+                    <input class="form-control" id="contact-name" name="name" autocomplete="name" placeholder="Cómo te llamás" maxlength="100" required>
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="form-label" for="contact-company">Empresa <span class="optional-label">(opcional)</span></label>
+                    <input class="form-control" id="contact-company" name="company" autocomplete="organization" placeholder="Nombre de tu empresa" maxlength="120">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label" for="contact-service">¿Qué querés desarrollar? <span aria-hidden="true">*</span></label>
+                    <select class="form-select" id="contact-service" name="service" required>
+                      <option value="">Elegí una opción</option>
+                      <option>Aplicación web</option>
+                      <option>Aplicación mobile</option>
+                      <option>Software a medida</option>
+                      <option>Sistema interno</option>
+                      <option>Integración / API</option>
+                      <option>Mejora de un sistema</option>
+                      <option>Quiero explorar una idea</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label" for="contact-message">Contanos un poco más <span aria-hidden="true">*</span></label>
+                    <textarea class="form-control" id="contact-message" name="message" rows="4" placeholder="¿Qué problema querés resolver o qué idea querés construir?" minlength="10" maxlength="1500" required aria-describedby="form-note">
+                    </textarea>
+                  </div>
+                </div>
+                <button class="btn btn-brand form-submit" type="submit" disabled><svg class="icon icon-sm" aria-hidden="true"><use href="#i-mail"></use></svg>Preparar mi consulta</button>
+                <p class="form-note" id="form-note">Se abrirá tu aplicación de correo con la consulta preparada. El mensaje se envía cuando lo confirmás allí.</p>
+                <p class="form-feedback" role="status" aria-live="polite"></p>
+                <noscript>
+                  <p class="no-js-note">Para enviar tu consulta, escribinos directamente a <a href="mailto:rqubosoftware@gmail.com">rqubosoftware@gmail.com</a>.</p>
+                </noscript>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row gy-4 footer-top">
+          <div class="col-lg-5">
+            <a class="brand footer-brand" href="#inicio" aria-label="RQubo, volver al inicio"><span class="footer-symbol"><img src="assets/logo/mark.webp" width="34" height="39" alt=""></span><span class="footer-wordmark">RQubo</span></a>
+            <p>Software pensado para tu negocio.<br>Desarrollado por un equipo cercano.</p>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h2 class="footer-heading">Explorá RQubo</h2>
+            <nav class="footer-nav" aria-label="Navegación del pie de página">
+              <a href="#servicios">Servicios</a>
+              <a href="#a-medida">Software a medida</a>
+              <a href="#proyectos">Proyectos</a>
+              <a href="#tecnologias">Tecnologías</a>
+              <a href="#equipo">Equipo</a>
+              <a href="#contacto">Contacto</a>
+            </nav>
+          </div>
+          <div class="col-6 col-lg-4">
+            <h2 class="footer-heading">El equipo en GitHub</h2>
+            <nav class="footer-nav" aria-label="GitHub del equipo">
+              <a href="https://github.com/TomasRandoM" target="_blank" rel="noopener noreferrer">Tomás Rando<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"></use></svg></a>
+              <a href="https://github.com/VictorRamirez26" target="_blank" rel="noopener noreferrer">Victor Ramírez<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"></use></svg></a>
+              <a href="https://github.com/JoacoR7" target="_blank" rel="noopener noreferrer">Joaquín Ruiz<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"></use></svg></a>
+            </nav>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© <span data-year>2026</span> RQubo. Todos los derechos reservados.</span>
+          <span>Web · Mobile · Software a medida</span>
+          <a href="#inicio" aria-label="Volver al inicio">Volver arriba <span aria-hidden="true">↑</span></a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
