@@ -1,6 +1,6 @@
 # RQubo — sitio institucional
 
-Landing page de un estudio de tres desarrolladores. Hecha con **HTML5, CSS3, JavaScript y Bootstrap 5.3.8**, sin backend. La galería integra Accordion Gallery de React Bits con React y GSAP; los archivos compilados están incluidos para abrir y publicar el sitio directamente.
+Landing page de un estudio de tres desarrolladores. Hecha con **HTML5, CSS3, JavaScript y Bootstrap 5.3.8**, sin backend. Las cards de proyectos usan React; los archivos compilados están incluidos para abrir y publicar el sitio directamente.
 
 ## Abrir y publicar
 
@@ -93,15 +93,15 @@ Los servicios, proyectos y perfiles se editan directamente en `index.html`. Los 
 
 ### Galería de proyectos
 
-La sección «Proyectos en acción» utiliza el componente original [Accordion Gallery de React Bits](https://reactbits.dev/components/accordion-gallery), integrado como una sección React dentro de la página estática. Los paneles se expanden al pasar el puntero, enfocar con el teclado o tocar una tarjeta. El panel activo muestra sus colores originales, sin overlay; los inactivos se atenúan y pasan a escala de grises, con inclinación y desplazamiento de la imagen. En móvil se apilan verticalmente. La tarjeta «Tu próximo proyecto» es una muestra que reutiliza la captura de convenios.
+La sección «Proyectos en acción» muestra una card por proyecto, con imágenes, título y descripción. Las cards se elevan suavemente al pasar el puntero. El carrusel exterior muestra dos proyectos en escritorio y uno en móvil; sus flechas avanzan de a un proyecto y vuelven al inicio o al final al llegar a un extremo. Las flechas exteriores aparecen cuando hay más proyectos que espacios visibles. Los proyectos con varias imágenes tienen sus propias flechas y puntos; las imágenes avanzan automáticamente cada cinco segundos y se pausan mientras el puntero o el foco están sobre la card, cuando la card no está visible, cuando se amplía una imagen, cuando la pestaña no está visible o si se prefiere movimiento reducido.
 
 Para sumar un proyecto:
 
-1. Guardá su captura en `assets/images/projects/`.
-2. En `index.html`, duplicá un enlace `a[data-project]` dentro de `#projects-gallery`.
-3. Actualizá `data-project` con el título, la imagen y su texto alternativo, el enlace y el texto de respaldo. No hace falta recompilar para agregar imágenes.
+1. Guardá sus capturas en `assets/images/projects/`.
+2. En `index.html`, duplicá un `article[data-project]` dentro de `#projects-gallery`.
+3. Actualizá el título, la descripción y los enlaces con sus imágenes y textos alternativos. Cada enlace dentro de `.project-showcase-media` añade una imagen al carrusel. No hace falta recompilar para cambiar proyectos o imágenes.
 
-Las flechas del teclado cambian el panel y su foco. Un clic o toque abre la captura completa en un popup dentro de la página. Se cierra con el botón de cierre, Escape o un clic fuera del popup; el foco vuelve a la tarjeta. El diálogo mantiene el foco dentro del popup y bloquea el desplazamiento de la página. La preferencia de movimiento reducido desactiva las animaciones. Sin JavaScript, las capturas y sus enlaces se muestran en una lista.
+Los controles de ambos carruseles funcionan con mouse, toque y teclado. Un clic o toque sobre la imagen abre la captura completa en un popup dentro de la página. Se cierra con el botón de cierre, Escape o un clic fuera del popup; el foco vuelve a la imagen. Sin JavaScript, las cards se pueden recorrer desplazando horizontalmente la fila y muestran sus textos y todas las capturas como enlaces.
 
 El código fuente está en `src/projects/`. Para cambiar el componente o su configuración, ejecutá `npm ci` y `npm run build:gallery`. El resultado se guarda en `js/projects-gallery.js` y `css/projects-gallery.css`. No hace falta Node.js para abrir o publicar el sitio; solo para recompilar estos archivos.
 
@@ -109,8 +109,7 @@ El código fuente está en `src/projects/`. Para cambiar el componente o su conf
 
 - [Bootstrap 5.3.8](https://getbootstrap.com/docs/5.3/getting-started/download/): distribución oficial lista para usar, licencia MIT incluida en `css/BOOTSTRAP-LICENSE.txt`.
 - [Manrope](https://github.com/sharanda/manrope): fuente variable servida localmente, SIL Open Font License 1.1 incluida en `assets/fonts/OFL.txt`.
-- [Accordion Gallery / React Bits](https://github.com/DavidHDev/react-bits): componente original con ajustes locales de accesibilidad, enlaces y móvil. Licencia MIT + Commons Clause incluida en `src/projects/REACT-BITS-LICENSE.md`.
-- React, React DOM y GSAP se incluyen en el bundle local de la galería; los avisos correspondientes se conservan en `js/projects-gallery.js.LEGAL.txt` y las licencias MIT de React, React DOM y Scheduler en `src/projects/licenses/`. esbuild se utiliza para compilar y no se carga en el navegador.
+- React y React DOM se incluyen en el bundle local de las cards; sus avisos se conservan en `js/projects-gallery.js.LEGAL.txt` y las licencias MIT de React, React DOM y Scheduler en `src/projects/licenses/`. esbuild se utiliza para compilar y no se carga en el navegador.
 - Avatares: `js/main.js` consulta los perfiles públicos de GitHub y muestra sus fotos actuales en la portada y las tarjetas. Las copias WebP locales se usan sin JavaScript o si GitHub falla; podés reemplazarlas conservando los nombres de archivo.
 
 No se agregaron analytics, cookies, formularios externos ni almacenamiento de datos personales.

@@ -201,19 +201,6 @@ p { color: var(--rq-muted); }
 .project-body p { margin-bottom: 20px; font-size: .91rem; }
 .project-footer { margin-top: auto; padding-top: 23px; }
 .project-footer .inline-link { font-size: .875rem; }
-/* Accordion Gallery de React Bits: colores y ajustes para capturas de proyectos. */
-.projects-accordion { height: clamp(320px, 38vw, 460px) !important; }
-.projects-accordion .ag-panel { padding: 0; border: 0; text-align: left; font: inherit; background: var(--rq-navy); }
-.projects-accordion .ag-panel__overlay { background: rgb(0 0 0 / 20%); opacity: 1; transition: opacity .6s; }
-.projects-accordion .ag-panel--active .ag-panel__overlay { opacity: 0; }
-.projects-accordion .ag-panel__label { width: fit-content; max-width: calc(100% - 40px); padding: 10px 12px; border-radius: 10px; background: #fff; opacity: 0; transition: opacity .25s; }
-.projects-accordion .ag-panel--active .ag-panel__label { opacity: 1; }
-.projects-accordion .ag-panel__bar { height: 24px; background: var(--rq-blue); box-shadow: none; }
-.projects-accordion .ag-panel__text { color: var(--rq-navy); font-weight: 750; text-shadow: none; }
-.projects-accordion .ag-panel:focus-visible { outline: 3px solid var(--rq-blue); outline-offset: 3px; }
-.project-gallery-fallback { display: block; margin-bottom: 18px; overflow: hidden; border: 1px solid var(--rq-line); border-radius: 18px; background: var(--rq-pale); }
-.project-gallery-fallback img { display: block; width: 100%; height: auto; }
-.project-gallery-fallback > span { display: block; padding: 20px; color: var(--rq-navy); font-weight: 750; }
 .project-lightbox { width: min(1400px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 32px); padding: 0; border: 1px solid var(--rq-line); border-radius: 16px; color: var(--rq-navy); background: #fff; box-shadow: 0 24px 80px rgb(0 0 0 / 35%); }
 .project-lightbox::backdrop { background: rgb(7 19 66 / 80%); backdrop-filter: blur(5px); }
 .project-lightbox-content { overflow: hidden; border-radius: inherit; }
@@ -222,13 +209,6 @@ p { color: var(--rq-muted); }
 .project-lightbox-close { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; padding: 0; border: 1px solid var(--rq-line); border-radius: 50%; color: var(--rq-navy); background: var(--rq-pale); font-size: 1.8rem; line-height: 1; }
 .project-lightbox-close:hover { color: var(--rq-blue); border-color: var(--rq-blue); }
 .project-lightbox-image { display: block; width: 100%; max-height: calc(100dvh - 128px); object-fit: contain; background: var(--rq-pale); }
-@media (max-width: 520px) {
-  .projects-accordion { height: 500px !important; }
-  .projects-accordion .ag-panel__media { height: 100%; }
-  .projects-accordion .ag-panel__label { left: 16px; right: 16px; bottom: 16px; }
-  .projects-accordion .ag-panel__text { white-space: normal; overflow-wrap: anywhere; font-size: 1rem; }
-}
-
 /* 07. Tecnologías y equipo */
 .team-card { display: flex; flex-direction: column; height: 100%; padding: 30px; border: 1px solid var(--rq-line); border-radius: var(--rq-radius); background: #fff; transition: box-shadow .25s, transform .25s; }
 .team-card:hover { box-shadow: var(--rq-shadow); transform: translateY(-5px); }
