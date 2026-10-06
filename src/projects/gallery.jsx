@@ -1,11 +1,12 @@
 import { createRoot } from "react-dom/client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./ProjectCards.css";
 
 const AUTOPLAY_DELAY = 5000;
+const SLIDE_DURATION = 650;
+const CAROUSEL_SPEED = 32; // Píxeles por segundo, independientemente del ancho de pantalla.
 
-function ProjectCard({ project, onOpen, lightboxOpen, isVisible }) {
-  const [active, setActive] = useState(0);
+function ProjectCard({ project, projectIndex, active, onImageChange, onOpen, lightboxOpen, isVisible }) {
   const [navigation, setNavigation] = useState(0);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -30,12 +31,12 @@ function ProjectCard({ project, onOpen, lightboxOpen, isVisible }) {
 
   useEffect(() => {
     if (count < 2 || !isVisible || hovered || focused || hidden || reducedMotion || lightboxOpen) return;
-    const timer = window.setInterval(() => setActive(index => (index + 1) % count), AUTOPLAY_DELAY);
+    const timer = window.setInterval(() => onImageChange(projectIndex, index => (index + 1) % count), AUTOPLAY_DELAY);
     return () => window.clearInterval(timer);
-  }, [count, isVisible, hovered, focused, hidden, reducedMotion, lightboxOpen, navigation]);
+  }, [count, isVisible, hovered, focused, hidden, reducedMotion, lightboxOpen, navigation, onImageChange, projectIndex]);
 
   const goTo = index => {
-    setActive((index + count) % count);
+    onImageChange(projectIndex, (index + count) % count);
     setNavigation(value => value + 1);
   };
 
@@ -100,13 +101,52 @@ function ProjectGallery({ projects }) {
   const [reducedMotion, setReducedMotion] = useState(
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
-  const [start, setStart] = useState(0);
+  // Tres copias permiten atravesar ambos extremos y recolocar el track sin un salto visible.
+  const count = projects.length;
+  const [position, setPosition] = useState(count);
+  const [step, setStep] = useState(0);
+  const [moving, setMoving] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [hidden, setHidden] = useState(document.hidden);
+  const [inView, setInView] = useState(false);
+  const [autoplay, setAutoplay] = useState(true);
+  const [activeImages, setActiveImages] = useState(() => projects.map(() => 0));
   const dialogRef = useRef(null);
   const openerRef = useRef(null);
   const viewportRef = useRef(null);
-  const itemRefs = useRef([]);
-  const maxStart = Math.max(0, projects.length - visibleCount);
-  const hasNavigation = maxStart > 0;
+  const trackRef = useRef(null);
+  const movingRef = useRef(false);
+  const hasNavigation = count > visibleCount;
+  const start = Math.floor(((position - count) % count + count) % count);
+  const slides = hasNavigation ? [...projects, ...projects, ...projects] : projects;
+  const offset = hasNavigation ? position : 0;
+  const canAutoplay = autoplay && hasNavigation && inView && !hovered && !focused && !hidden && !selected && !reducedMotion;
+
+  // Las copias de un mismo proyecto comparten la imagen activa al cruzar un extremo.
+  const onImageChange = useCallback((index, update) => {
+    setActiveImages(current => current.map((active, projectIndex) =>
+      projectIndex === index ? (typeof update === "function" ? update(active) : update) : active
+    ));
+  }, []);
+
+  const finishMove = useCallback(() => {
+    if (!movingRef.current) return;
+    movingRef.current = false;
+    setMoving(false);
+    setPosition(current => count + ((current - count) % count + count) % count);
+  }, [count]);
+
+  const move = useCallback(direction => {
+    if (!hasNavigation || movingRef.current) return;
+    if (reducedMotion) {
+      setPosition(current => count + ((Math.floor(current - count) + direction) % count + count) % count);
+      return;
+    }
+    movingRef.current = true;
+    setMoving(true);
+    setPosition(current => Math.floor(current) + direction);
+  }, [count, hasNavigation, reducedMotion]);
 
   useEffect(() => {
     const breakpoint = window.matchMedia("(max-width: 767px)");
@@ -122,29 +162,55 @@ function ProjectGallery({ projects }) {
     return () => preference.removeEventListener("change", update);
   }, []);
 
-  useEffect(() => {
-    setStart(current => Math.min(current, maxStart));
-  }, [maxStart]);
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     const viewport = viewportRef.current;
-    const target = itemRefs.current[Math.min(start, maxStart)];
-    if (!viewport || !target) return;
-    viewport.scrollTo({ left: target.offsetLeft, behavior: reducedMotion ? "auto" : "smooth" });
-  }, [start, maxStart, reducedMotion]);
-
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-    let previousWidth = viewport.clientWidth;
-    const observer = new ResizeObserver(() => {
-      if (viewport.clientWidth === previousWidth) return;
-      previousWidth = viewport.clientWidth;
-      viewport.scrollLeft = itemRefs.current[Math.min(start, maxStart)]?.offsetLeft ?? 0;
-    });
+    const track = trackRef.current;
+    const update = () => {
+      finishMove();
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      setStep(track.firstElementChild.getBoundingClientRect().width + gap);
+    };
+    update();
+    const observer = new ResizeObserver(update);
     observer.observe(viewport);
     return () => observer.disconnect();
-  }, [start, maxStart]);
+  }, [visibleCount, finishMove]);
+
+  useEffect(() => {
+    const update = () => setHidden(document.hidden);
+    document.addEventListener("visibilitychange", update);
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.2 });
+    observer.observe(viewportRef.current);
+    return () => {
+      document.removeEventListener("visibilitychange", update);
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!moving) return;
+    if (reducedMotion) { finishMove(); return; }
+    // Respaldo por si se cancela la transición o la pestaña pasa a segundo plano.
+    const timer = window.setTimeout(finishMove, SLIDE_DURATION + 100);
+    return () => window.clearTimeout(timer);
+  }, [moving, reducedMotion, finishMove]);
+
+  useEffect(() => {
+    if (!canAutoplay || moving || !step) return;
+    let frame;
+    let previousTime;
+    const tick = time => {
+      if (previousTime !== undefined) {
+        // Limitar el delta evita saltos si el navegador tarda en entregar un frame.
+        const distance = CAROUSEL_SPEED * Math.min(time - previousTime, 50) / 1000 / step;
+        setPosition(current => count + ((current - count + distance) % count + count) % count);
+      }
+      previousTime = time;
+      frame = window.requestAnimationFrame(tick);
+    };
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [canAutoplay, moving, step, count]);
 
   useEffect(() => {
     if (!selected) return;
@@ -160,34 +226,59 @@ function ProjectGallery({ projects }) {
 
   return (
     <>
-      <div className="project-carousel">
+      <div
+        className="project-carousel"
+        role="region"
+        aria-roledescription="carrusel"
+        aria-label="Proyectos en acción"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onFocus={() => setFocused(true)}
+        onBlur={event => {
+          if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
+        }}
+      >
         {hasNavigation && (
           <div className="project-carousel-toolbar" role="group" aria-label="Navegación entre proyectos">
-            <span className="visually-hidden" aria-live="polite">
-              Mostrando proyectos {start + 1} a {Math.min(start + visibleCount, projects.length)} de {projects.length}
+            <span className="visually-hidden" aria-live={canAutoplay ? "off" : "polite"} aria-atomic="true">
+              Proyectos visibles: {Array.from({ length: Math.min(visibleCount, count) }, (_, index) => projects[(start + index) % count].title).join(", ")}.
             </span>
-            <button type="button" className="project-carousel-arrow" onClick={() => setStart(current => current === 0 ? maxStart : current - 1)} aria-label="Proyectos anteriores">
+            <button type="button" className="project-carousel-arrow project-carousel-play" onClick={() => setAutoplay(current => !current)} aria-label={autoplay ? "Pausar avance automático" : "Activar avance automático"} aria-pressed={!autoplay}>
+              <span aria-hidden="true">{autoplay ? "Ⅱ" : "▶"}</span>
+            </button>
+            <button type="button" className="project-carousel-arrow" onClick={() => move(-1)} aria-label="Proyectos anteriores">
               <span aria-hidden="true">‹</span>
             </button>
-            <button type="button" className="project-carousel-arrow" onClick={() => setStart(current => current === maxStart ? 0 : current + 1)} aria-label="Proyectos siguientes">
+            <button type="button" className="project-carousel-arrow" onClick={() => move(1)} aria-label="Proyectos siguientes">
               <span aria-hidden="true">›</span>
             </button>
           </div>
         )}
         <div className="project-carousel-viewport" ref={viewportRef}>
-          <div className="project-carousel-track">
-            {projects.map((project, index) => {
-              const isVisible = index >= start && index < start + visibleCount;
+          <div
+            ref={trackRef}
+            className={`project-carousel-track${moving ? " is-moving" : ""}`}
+            style={{ transform: `translate3d(${-offset * step}px, 0, 0)`, "--slide-duration": `${SLIDE_DURATION}ms` }}
+            onTransitionEnd={event => {
+              if (event.target === event.currentTarget && event.propertyName === "transform") finishMove();
+            }}
+          >
+            {slides.map((project, index) => {
+              const projectIndex = index % count;
+              const isVisible = index + 1 > offset && index < offset + visibleCount;
               return (
                 <div
                   key={index}
                   className="project-carousel-item"
-                  ref={element => { itemRefs.current[index] = element; }}
+                  data-project-index={projectIndex}
                   inert={!isVisible}
                   aria-hidden={!isVisible}
                 >
                   <ProjectCard
                     project={project}
+                    projectIndex={projectIndex}
+                    active={activeImages[projectIndex]}
+                    onImageChange={onImageChange}
                     isVisible={isVisible}
                     lightboxOpen={Boolean(selected)}
                     onOpen={(image, title, opener) => {
@@ -207,7 +298,13 @@ function ProjectGallery({ projects }) {
         aria-labelledby="project-lightbox-title"
         onClose={() => {
           setSelected(null);
-          openerRef.current?.focus();
+          const opener = openerRef.current;
+          const item = opener?.closest(".project-carousel-item");
+          // Si se abrió durante el cruce de un extremo, el foco vuelve a la copia visible.
+          const visibleOpener = item?.inert
+            ? trackRef.current.querySelector(`.project-carousel-item:not([inert])[data-project-index="${item.dataset.projectIndex}"] .project-showcase-image-button`)
+            : opener;
+          visibleOpener?.focus();
         }}
         onClick={event => {
           if (event.target === event.currentTarget) dialogRef.current.close();
