@@ -34,7 +34,6 @@
   border-color: var(--rq-blue);
   box-shadow: var(--rq-shadow);
 }
-.project-carousel-play { font-size: 1.05rem; }
 .project-carousel-viewport {
   position: relative;
   overflow: hidden;
@@ -68,7 +67,7 @@
 .project-showcase-card:hover {
   transform: translateY(-6px);
   border-color: #b4c9f5;
-  box-shadow: 0 6px 14px -4px rgb(7 19 66 / 12%);
+  box-shadow: 0 10px 26px -4px rgb(7 19 66 / 14%);
 }
 
 .project-showcase-media {

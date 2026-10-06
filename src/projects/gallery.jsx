@@ -110,7 +110,6 @@ function ProjectGallery({ projects }) {
   const [focused, setFocused] = useState(false);
   const [hidden, setHidden] = useState(document.hidden);
   const [inView, setInView] = useState(false);
-  const [autoplay, setAutoplay] = useState(true);
   const [activeImages, setActiveImages] = useState(() => projects.map(() => 0));
   const dialogRef = useRef(null);
   const openerRef = useRef(null);
@@ -121,7 +120,7 @@ function ProjectGallery({ projects }) {
   const start = Math.floor(((position - count) % count + count) % count);
   const slides = hasNavigation ? [...projects, ...projects, ...projects] : projects;
   const offset = hasNavigation ? position : 0;
-  const canAutoplay = autoplay && hasNavigation && inView && !hovered && !focused && !hidden && !selected && !reducedMotion;
+  const canAutoplay = hasNavigation && inView && !hovered && !focused && !hidden && !selected && !reducedMotion;
 
   // Las copias de un mismo proyecto comparten la imagen activa al cruzar un extremo.
   const onImageChange = useCallback((index, update) => {
@@ -243,9 +242,6 @@ function ProjectGallery({ projects }) {
             <span className="visually-hidden" aria-live={canAutoplay ? "off" : "polite"} aria-atomic="true">
               Proyectos visibles: {Array.from({ length: Math.min(visibleCount, count) }, (_, index) => projects[(start + index) % count].title).join(", ")}.
             </span>
-            <button type="button" className="project-carousel-arrow project-carousel-play" onClick={() => setAutoplay(current => !current)} aria-label={autoplay ? "Pausar avance automático" : "Activar avance automático"} aria-pressed={!autoplay}>
-              <span aria-hidden="true">{autoplay ? "Ⅱ" : "▶"}</span>
-            </button>
             <button type="button" className="project-carousel-arrow" onClick={() => move(-1)} aria-label="Proyectos anteriores">
               <span aria-hidden="true">‹</span>
             </button>
