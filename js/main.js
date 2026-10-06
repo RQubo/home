@@ -1,10 +1,10 @@
 "use strict";
 
-// Configurá aquí los canales de contacto. Los vacíos se muestran como pendientes.
+// Canales de contacto de RQubo.
 const RQUBO_CONTACT = Object.freeze({
   email: "rqubosoftware@gmail.com",
-  whatsapp: "", // Formato internacional: solo dígitos, sin + ni espacios.
-  linkedin: "" // URL completa del perfil o página de RQubo.
+  whatsapp: "5492604235948", // Formato internacional: solo dígitos, sin + ni espacios.
+  instagram: "https://www.instagram.com/rqubosoftware/"
 });
 
 (() => {
@@ -17,6 +17,39 @@ const RQUBO_CONTACT = Object.freeze({
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (year) year.textContent = new Date().getFullYear();
+
+  const processList = document.querySelector(".process-list");
+  if (processList) {
+    const steps = [...processList.children];
+    let activeStep = 0;
+    let processTimer;
+    let processVisible = !("IntersectionObserver" in window);
+
+    const highlightStep = (index) => {
+      activeStep = index;
+      steps.forEach((step, stepIndex) => step.classList.toggle("is-active", stepIndex === index));
+    };
+    const refreshProcessAnimation = () => {
+      window.clearInterval(processTimer);
+      if (prefersReducedMotion.matches) highlightStep(0);
+      if (!processVisible || document.hidden || prefersReducedMotion.matches || steps.length < 2) return;
+      processTimer = window.setInterval(() => {
+        highlightStep((activeStep + 1) % steps.length);
+      }, 1600);
+    };
+
+    if ("IntersectionObserver" in window) {
+      const processObserver = new IntersectionObserver(([entry]) => {
+        processVisible = entry.isIntersecting;
+        if (processVisible) highlightStep(0);
+        refreshProcessAnimation();
+      }, { threshold: 0.15 });
+      processObserver.observe(processList);
+    }
+    document.addEventListener("visibilitychange", refreshProcessAnimation);
+    prefersReducedMotion.addEventListener("change", refreshProcessAnimation);
+    refreshProcessAnimation();
+  }
 
   const profileImages = document.querySelectorAll("img[data-github-user]");
   const githubUsers = new Set([...profileImages].map((image) => image.dataset.githubUser));
@@ -35,7 +68,7 @@ const RQUBO_CONTACT = Object.freeze({
         image.addEventListener("error", () => { image.src = fallback; }, { once: true });
         image.src = avatar.href;
       });
-    } catch { /* Sin conexión o respuesta inválida: se conserva la foto local. */ }
+    } catch { /* Sin conexión o respuesta inválida: se conserva el ícono de avatar. */ }
   });
 
   const refreshHeader = () => header?.classList.toggle("is-scrolled", window.scrollY > 15);
@@ -97,30 +130,15 @@ const RQUBO_CONTACT = Object.freeze({
 
   if (emailAddress) {
     emailAddress.textContent = RQUBO_CONTACT.email;
-    emailAddress.href = `mailto:${RQUBO_CONTACT.email}`;
   }
-  document.querySelectorAll("[data-contact-mailto]").forEach((link) => {
-    link.href = `mailto:${RQUBO_CONTACT.email}`;
-  });
 
   const whatsapp = document.querySelector("[data-contact-whatsapp]");
-  if (/^\d{8,15}$/.test(RQUBO_CONTACT.whatsapp)) {
+  if (whatsapp && /^\d{8,15}$/.test(RQUBO_CONTACT.whatsapp)) {
     const message = encodeURIComponent("Hola RQubo, quiero conversar sobre un proyecto.");
     whatsapp.href = `https://wa.me/${RQUBO_CONTACT.whatsapp}?text=${message}`;
-    whatsapp.hidden = false;
-    document.querySelector("[data-whatsapp-pending]").hidden = true;
   }
-  if (RQUBO_CONTACT.linkedin) {
-    try {
-      const linkedinUrl = new URL(RQUBO_CONTACT.linkedin);
-      if (linkedinUrl.protocol === "https:" && /(^|\.)linkedin\.com$/.test(linkedinUrl.hostname)) {
-        const linkedin = document.querySelector("[data-contact-linkedin]");
-        linkedin.href = linkedinUrl.href;
-        linkedin.hidden = false;
-        document.querySelector("[data-linkedin-pending]").hidden = true;
-      }
-    } catch { /* Un canal incompleto conserva su estado pendiente. */ }
-  }
+  const instagram = document.querySelector("[data-contact-instagram]");
+  if (instagram) instagram.href = RQUBO_CONTACT.instagram;
 
   document.querySelector("[data-copy-email]")?.addEventListener("click", async () => {
     const feedback = document.getElementById("copy-feedback");
@@ -139,23 +157,70 @@ const RQUBO_CONTACT = Object.freeze({
   });
 
   const form = document.getElementById("contact-form");
-  form?.querySelector('[type="submit"]').removeAttribute("disabled");
-  form?.addEventListener("submit", (event) => {
+  let sendingContact = false;
+  form?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (!form.reportValidity()) return;
+    if (sendingContact || !form.reportValidity()) return;
     const fields = new FormData(form);
     const name = String(fields.get("name") || "").trim();
     const company = String(fields.get("company") || "").trim();
+    const email = String(fields.get("email") || "").trim();
     const service = String(fields.get("service") || "").trim();
     const message = String(fields.get("message") || "").trim();
+    const feedback = form.querySelector(".form-feedback");
+    if (fields.get("_honey")) return;
     if (!name || message.length < 10) {
-      form.querySelector(".form-feedback").textContent = "Completá tu nombre y contanos un poco más sobre el proyecto.";
+      feedback.dataset.state = "error";
+      feedback.textContent = "Completá tu nombre y contanos un poco más sobre el proyecto.";
       (name ? document.getElementById("contact-message") : document.getElementById("contact-name")).focus();
       return;
     }
-    const subject = encodeURIComponent(`Consulta RQubo · ${service}`);
-    const body = encodeURIComponent(`Hola, equipo de RQubo:\r\n\r\nSoy ${name}.${company ? `\r\nEmpresa: ${company}` : ""}\r\nMe interesa: ${service}.\r\n\r\n${message}\r\n\r\nGracias.`);
-    form.querySelector(".form-feedback").textContent = "Tu consulta está preparada. Confirmá el envío en tu aplicación de correo; si no se abre, usá el email que figura al lado.";
-    window.location.href = `mailto:${RQUBO_CONTACT.email}?subject=${subject}&body=${body}`;
+
+    const submitButton = form.querySelector('[type="submit"]');
+    const submitLabel = form.querySelector("[data-submit-label]");
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 20000);
+    sendingContact = true;
+    submitButton.disabled = true;
+    submitLabel.textContent = "Enviando…";
+    form.setAttribute("aria-busy", "true");
+    feedback.dataset.state = "pending";
+    feedback.textContent = "Estamos enviando tu consulta…";
+
+    try {
+      const response = await fetch(form.action.replace("https://formsubmit.co/", "https://formsubmit.co/ajax/"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          ...Object.fromEntries(fields),
+          name, company, email, service, message,
+          _replyto: email,
+          _subject: `Consulta RQubo · ${service}`,
+          _url: window.location.href
+        }),
+        signal: controller.signal
+      });
+      const result = await response.json();
+      if (response.ok && (result.success === false || result.success === "false") && /needs activation/i.test(String(result.message || ""))) {
+        feedback.dataset.state = "error";
+        feedback.textContent = `El formulario todavía no está habilitado. Por favor, escribinos a ${RQUBO_CONTACT.email}.`;
+        return;
+      }
+      if (!response.ok || (result.success !== true && result.success !== "true")) {
+        throw new Error("Contact submission rejected");
+      }
+      feedback.dataset.state = "success";
+      feedback.textContent = "¡Gracias! Tu consulta fue enviada. Te vamos a responder por email.";
+      form.reset();
+    } catch {
+      feedback.dataset.state = "error";
+      feedback.textContent = `No pudimos confirmar el envío. Intentá nuevamente o escribinos a ${RQUBO_CONTACT.email}.`;
+    } finally {
+      window.clearTimeout(timeout);
+      sendingContact = false;
+      submitButton.disabled = false;
+      submitLabel.textContent = "Enviar consulta";
+      form.removeAttribute("aria-busy");
+    }
   });
 })();

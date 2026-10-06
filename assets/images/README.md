@@ -1,6 +1,8 @@
 # Imágenes del equipo
 
-Avatares públicos descargados desde los perfiles de GitHub indicados por el equipo, el 4 de octubre de 2026. La página consulta los perfiles públicos al cargar y muestra sus fotos actuales. Estos archivos locales son el respaldo si GitHub o la imagen remota fallan, y se muestran cuando JavaScript está desactivado.
+La página muestra `avatar-placeholder.svg`, un ícono de avatar neutro, mientras consulta los perfiles públicos de GitHub y carga sus fotos actuales. El ícono también queda como respaldo si GitHub o la imagen remota fallan, o si JavaScript está desactivado.
+
+Las fotos locales descargadas el 4 de octubre de 2026 se conservan como archivos históricos; ya no se usan como placeholders:
 
 - `tomas.webp`: https://github.com/TomasRandoM
 - `victor.webp`: https://github.com/VictorRamirez26
